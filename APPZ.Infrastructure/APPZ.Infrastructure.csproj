@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\APPZ.Core\APPZ.Core.csproj" />
+  </ItemGroup>
+
+	
+
 </Project>

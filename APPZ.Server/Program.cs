@@ -1,4 +1,4 @@
-using APPZ.Migrations;
+using APPZ.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 

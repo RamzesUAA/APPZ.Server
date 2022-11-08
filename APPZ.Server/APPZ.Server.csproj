@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\APPZ.Migrations\APPZ.Migrations.csproj" />
+	  <ProjectReference Include="..\APPZ.Core\APPZ.Core.csproj" />
 	</ItemGroup>
 
 </Project>

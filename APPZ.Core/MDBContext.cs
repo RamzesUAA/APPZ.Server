@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace APPZ.Migrations
+namespace APPZ.Core
 {
     public class MDBContext : DbContext
     {
