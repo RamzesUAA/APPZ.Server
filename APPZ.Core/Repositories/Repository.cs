@@ -1,7 +1,9 @@
 ﻿using APPZ.Core;
 using APPZ.Core.Entities;
+using APPZ.Core.Exceptions;
 using APPZ.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace APPZ.Core.Repository
 {
@@ -22,7 +24,7 @@ namespace APPZ.Core.Repository
         }
         public async Task<TEntity> GetById(Guid Id, CancellationToken Cancel)
         {
-            return await DbSet.FirstOrDefaultAsync(Item => Item.Id == Id, Cancel);
+            return await DbSet.FirstOrDefaultAsync(Item => Item.Id == Id, Cancel) ?? throw new HttpCodeException(HttpStatusCode.NotFound);
         }
         public async Task Create(TEntity Element, CancellationToken Cancel)
         {

@@ -1,4 +1,6 @@
-﻿using APPZ.Core.Entities;
+﻿using APPZ.Core.Constants;
+using APPZ.Core.DTO;
+using APPZ.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,9 @@ namespace APPZ.Core.Interfaces
 {
     public interface IRequestService
     {
-        public Task<RequestEntity> GetRequest(Guid id);
-        public Task<IEnumerable<RequestEntity>> GetRequests();
+        Task AddRequest(RequestCreateDTO request, CancellationToken cancellationToken);
+        Task<RequestReadDTO> GetRequest(Guid id, CancellationToken cancellationToken);
+        Task ProcessRequest(Guid id, Status status, CancellationToken cancellationToken);
+        Task<IEnumerable<RequestReadDTO>> GetAllRequests(CancellationToken cancellationToken);
     }
 }

@@ -1,3 +1,4 @@
+using APPZ.Core.DTO;
 using APPZ.Core.Entities;
 using APPZ.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,9 @@ namespace APPZ.Server.Controllers
 
 
         [HttpGet(Name = "GetRequests")]
-        public async Task<IEnumerable<RequestEntity>> Get()
+        public async Task<IEnumerable<RequestReadDTO>> Get(CancellationToken cancellationToken)
         {
-            return await _requestService.GetRequests();
+            return await _requestService.GetAllRequests(cancellationToken);
         }
     }
 }

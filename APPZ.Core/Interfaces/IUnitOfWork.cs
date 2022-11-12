@@ -7,6 +7,8 @@ namespace APPZ.Core.Interfaces
         IGenericRepository<NotificationEntity> NotifcationsRepository { get; }
         IGenericRepository<UserEntity> UserRepository { get; }
         IGenericRepository<RequestEntity> RequestRepository { get; }
+        IGenericRepository<OrganisationNotifications> OrganisationNotificationsRepository { get; }
+        IGenericRepository<OrganisationDetails> OrganisationDetailsRepository { get; }
         Task SaveChangesAsync(CancellationToken cancel);
     }
 }

@@ -1,4 +1,5 @@
 using APPZ.Core;
+using APPZ.Server.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddMapper();
 builder.Services.AddDbContext<MDBContext>();
+builder.Services.AddFunctions();
 
 var app = builder.Build();
 

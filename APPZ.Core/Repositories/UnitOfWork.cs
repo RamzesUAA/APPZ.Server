@@ -11,9 +11,22 @@ namespace APPZ.Core.Repository
         private IGenericRepository<NotificationEntity> _notificationEntityRepository;
         private IGenericRepository<UserEntity> _userRepository;
         private IGenericRepository<RequestEntity> _requestRepository;
+        private IGenericRepository<OrganisationNotifications> _organisationNotificationsRepository;
+        private IGenericRepository<OrganisationDetails> _organisationDetailsRepository;
         public UnitOfWork(MDBContext context)
         {
             this._context = context;
+        }
+        public virtual IGenericRepository<OrganisationDetails> OrganisationDetailsRepository
+        {
+            get
+            {
+                if (this._organisationDetailsRepository == null)
+                {
+                    this._organisationDetailsRepository = new GenericRepository<OrganisationDetails>(_context);
+                }
+                return _organisationDetailsRepository;
+            }
         }
         public virtual IGenericRepository<NotificationEntity> NotifcationsRepository
         {
@@ -24,6 +37,17 @@ namespace APPZ.Core.Repository
                     this._notificationEntityRepository = new GenericRepository<NotificationEntity>(_context);
                 }
                 return _notificationEntityRepository;
+            }
+        }
+        public virtual IGenericRepository<OrganisationNotifications> OrganisationNotificationsRepository
+        {
+            get
+            {
+                if (this._organisationNotificationsRepository == null)
+                {
+                    this._organisationNotificationsRepository = new GenericRepository<OrganisationNotifications>(_context);
+                }
+                return _organisationNotificationsRepository;
             }
         }
         public IGenericRepository<UserEntity> UserRepository

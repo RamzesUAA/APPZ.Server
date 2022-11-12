@@ -28,5 +28,6 @@ namespace APPZ.Core.Entities
         public string? Password { get; set; }
 
         public RoleName Role { get; set; }
+        public ICollection<NotificationEntity> Notifications { get; set; }
     }
 }
