@@ -1,79 +1,58 @@
 ﻿using System.Data;
+using APPZ.Core.Entities;
 using APPZ.Core.Interfaces;
 using Npgsql;
 
 namespace APPZ.Core.Repository
 {
-    public class UnitOfWork : IUnitOfWork
+    public abstract class UnitOfWork : IUnitOfWork
     {
-        protected IDbConnection _connection;
-        protected IDbTransaction _transaction;
-
-        public UnitOfWork(IDbContext context)
+        private readonly MDBContext _context;
+        private IGenericRepository<NotificationEntity> _notificationEntityRepository;
+        private IGenericRepository<UserEntity> _userRepository;
+        private IGenericRepository<RequestEntity> _requestRepository;
+        public UnitOfWork(MDBContext context)
         {
-            if (context == null)
-            {
-                return;
-            }
-
-            _connection = new NpgsqlConnection(context.ConnectionString);
-
-            context.ConfigureDb();
-            context.ConfigureOrm();
+            this._context = context;
         }
-        public IDbConnection Connection
+        public virtual IGenericRepository<NotificationEntity> NotifcationsRepository
         {
             get
             {
-                return this._connection;
+                if (this._notificationEntityRepository == null)
+                {
+                    this._notificationEntityRepository = new GenericRepository<NotificationEntity>(_context);
+                }
+                return _notificationEntityRepository;
             }
         }
-        public IDbTransaction Transaction
+        public IGenericRepository<UserEntity> UserRepository
         {
             get
             {
-                return this._transaction;
+                if (this._userRepository == null)
+                {
+                    this._userRepository = new GenericRepository<UserEntity>(_context);
+                }
+                return _userRepository;
             }
-        }
-        public virtual void Begin()
-        {
-            if (_connection.State != ConnectionState.Open)
-            {
-                _connection.Open();
-            }
-            _transaction = _connection.BeginTransaction();
-        }
-        public virtual void Commit()
-        {
-            if (_transaction != null)
-            {
-                _transaction.Commit();
-            }
-            Dispose();
         }
 
-        public virtual void Rollback()
+        public IGenericRepository<RequestEntity> RequestRepository
         {
-            if (_transaction != null)
+            get
             {
-                _transaction.Rollback();
+                if (this._requestRepository == null)
+                {
+                    this._requestRepository = new GenericRepository<RequestEntity>(_context);
+                }
+                return _requestRepository;
             }
-            Dispose();
         }
 
-        public virtual void Dispose()
+        public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {
-            if (_transaction != null)
-            {
-                _transaction.Dispose();
-            }
-            _transaction = null;
-
-            if (_connection != null)
-            {
-                _connection.Dispose();
-            }
-            _connection = null;
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

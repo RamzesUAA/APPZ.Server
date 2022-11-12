@@ -17,6 +17,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\APPZ.Core\APPZ.Core.csproj" />
+	  <ProjectReference Include="..\APPZ.Infrastructure\APPZ.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>
