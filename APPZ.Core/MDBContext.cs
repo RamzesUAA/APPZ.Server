@@ -7,7 +7,6 @@ namespace APPZ.Core
     public class MDBContext : DbContext
     {
         protected readonly IConfiguration Configuration;
-        public MDBContext() { }
         public MDBContext(IConfiguration configuration)
 
         {
@@ -22,7 +21,7 @@ namespace APPZ.Core
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to postgres with connection string from app settings
-            options.UseSqlServer("server=LAPTOP-7MCGKLEC\\SQLEXPRESS;database=appz;trusted_connection=true;");
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
