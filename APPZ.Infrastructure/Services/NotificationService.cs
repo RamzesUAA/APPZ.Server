@@ -1,38 +1,35 @@
 ﻿using APPZ.Core.Entities;
 using APPZ.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace APPZ.Infrastructure.Implementations
 {
     public class NotificationService : INotificationService
     {
         IUnitOfWork _unitOfWork;
-        IConfiguration _configuration;
         public INotifyOrgStrategy Strategy { get; set; }
-        public NotificationService(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public NotificationService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _configuration = configuration;
         }
 
-        public async Task<IEnumerable<NotificationEntity>> GetNotifications()
+        public async Task<IEnumerable<NotificationEntity>> GetNotifications(CancellationToken cancellationToken)
         {
-            return await _unitOfWork.NotifcationsRepository.GetAll(CancellationToken.None);
+            return await _unitOfWork.NotifcationsRepository.GetAll(cancellationToken);
         }
 
-        public Task<NotificationEntity> GetNotification(Guid id)
+        public async Task<NotificationEntity> GetNotification(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.NotifcationsRepository.GetById(id, cancellationToken);
+        }
+        public async Task<IEnumerable<NotificationEntity>> GetNotificationsForUser(Guid userId, CancellationToken cancellationToken)
+        {
+            return await _unitOfWork.NotifcationsRepository.DbSet.Where(item => item.ToUserId == userId).ToListAsync(cancellationToken);
         }
 
         public async Task NotificateOrganisation(OrganisationDetails organisationDetails, string message, CancellationToken cancellationToken)
         {
-            await Strategy.SendNotification(organisationDetails, message, _configuration, cancellationToken);
+            await Strategy.SendNotification(organisationDetails, message, cancellationToken);
         }
     }
 }

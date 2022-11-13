@@ -38,7 +38,7 @@ namespace APPZ.Infrastructure.Implementations
 
         }
         public async Task<RequestReadDTO> GetRequest(Guid id, CancellationToken cancellationToken) =>
-            _mapper.Map<RequestReadDTO>((await _unitOfWork.RequestRepository.GetById(id, cancellationToken)));
+            _mapper.Map<RequestReadDTO>(await _unitOfWork.RequestRepository.GetById(id, cancellationToken));
         public async Task ProcessRequest(Guid id, Status status, CancellationToken cancellationToken)
         {
             var entity = (await _unitOfWork.RequestRepository.GetById(id, cancellationToken));
@@ -55,10 +55,10 @@ namespace APPZ.Infrastructure.Implementations
         public async Task SendRequestsToOrganisation(Guid organisationId, List<Guid> requestIds, CancellationToken cancellationToken)
         {
             var organisationDetails = await _unitOfWork.OrganisationDetailsRepository.DbSet
-                .Include(item => item.Organisation).FirstOrDefaultAsync(item => item.Id == organisationId, cancellationToken);
+                .Include(item => item.Organisation).FirstOrDefaultAsync(item => item.OrganisationId == organisationId, cancellationToken) ?? throw new HttpCodeException(HttpStatusCode.BadRequest);
 
             var organisationNotificationType = await _unitOfWork.OrganisationNotificationsRepository.DbSet
-                .FirstOrDefaultAsync(item => item.Id == organisationId, cancellationToken) ?? throw new HttpCodeException(HttpStatusCode.BadRequest);
+                .FirstOrDefaultAsync(item => item.OrgId == organisationId, cancellationToken) ?? throw new HttpCodeException(HttpStatusCode.BadRequest);
 
             switch (organisationNotificationType.Type)
             {
