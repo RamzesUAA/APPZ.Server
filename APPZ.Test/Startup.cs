@@ -1,4 +1,8 @@
-﻿using APPZ.Core.Interfaces;
+﻿using APPZ.Core;
+using APPZ.Core.Entities;
+using APPZ.Core.Interfaces;
+using APPZ.Core.Repository;
+using APPZ.Infrastructure.Implementations;
 using APPZ.Test.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,7 +18,10 @@ namespace APPZ.Test
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWorkStub>();
+            services.AddSingleton<IGenericRepository<BaseEntity>, GenericRepository<BaseEntity>>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddDbContext<MDBContext>();
         }
     }
 }

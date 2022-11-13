@@ -25,9 +25,9 @@ namespace APPZ.Infrastructure.Implementations
             return await _unitOfWork.NotifcationsRepository.GetAll(CancellationToken.None);
         }
 
-        public Task<NotificationEntity> GetNotification(Guid id)
+        public async Task<NotificationEntity> GetNotification(Guid id)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.NotifcationsRepository.GetById(id, CancellationToken.None);
         }
 
         public async Task NotificateOrganisation(OrganisationDetails organisationDetails, string message, CancellationToken cancellationToken)

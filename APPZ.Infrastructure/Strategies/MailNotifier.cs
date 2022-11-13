@@ -6,9 +6,9 @@ using System.Net.Mail;
 
 namespace APPZ.Infrastructure.Strategies
 {
-    internal class MailNotifier : INotifyOrgStrategy
+    public class MailNotifier : INotifyOrgStrategy
     {
-        public async Task SendNotification(OrganisationDetails organisationDetails, string text, IConfiguration configuration, CancellationToken cancellationToken)
+        public virtual async Task SendNotification(OrganisationDetails organisationDetails, string text, IConfiguration configuration, CancellationToken cancellationToken)
         {
             var smtpClient = new SmtpClient(configuration["Smtp:Host"])
             {
