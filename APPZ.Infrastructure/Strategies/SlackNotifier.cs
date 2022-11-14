@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace APPZ.Infrastructure.Strategies
 {
-    internal class SlackNotifier : INotifyOrgStrategy
+    public class SlackNotifier : INotifyOrgStrategy
     {
-        public async Task SendNotification(OrganisationDetails organisationDetails, string message, IConfiguration configuration, CancellationToken cancellationToken)
+        public virtual async Task SendNotification(OrganisationDetails organisationDetails, string message, CancellationToken cancellationToken)
         {
             if (organisationDetails.SlackHook == null)
                 throw new HttpCodeException(System.Net.HttpStatusCode.NotFound, "CurRent organisation doesn`t provided slack hook, to send message to.");

@@ -3,7 +3,6 @@ using APPZ.Core.Entities;
 using APPZ.Core.Interfaces;
 using APPZ.Core.Repository;
 using APPZ.Infrastructure.Implementations;
-using APPZ.Test.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
