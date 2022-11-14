@@ -1,9 +1,11 @@
-﻿using APPZ.Core.Entities;
+﻿using APPZ.Core;
+using APPZ.Core.Entities;
 using APPZ.Core.Exceptions;
 using APPZ.Core.Interfaces;
 using APPZ.Infrastructure.Implementations;
 using APPZ.Infrastructure.Strategies;
 using APPZ.Test.MockData;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -11,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,13 +24,11 @@ namespace APPZ.Test.Services
     public class NotificationServiceTest
     {
         private readonly Mock<IUnitOfWork> _unitOfWorkMoq;
-        private readonly Mock<IConfiguration> _configuration;
         private readonly INotificationService _notificationService;
 
         public NotificationServiceTest()
         {
             _unitOfWorkMoq = new Mock<IUnitOfWork>();
-            _configuration = new Mock<IConfiguration>();
             _notificationService = new NotificationService(_unitOfWorkMoq.Object);
         }
 
@@ -70,7 +71,7 @@ namespace APPZ.Test.Services
         }
 
         [TestMethod]
-        public async Task GetNotificationByNotExistingId_OkTest()
+        public async Task GetNotificationByNotExistingId_NotFoundTest()
         {
             // Arrange
             _unitOfWorkMoq.Setup(n => n.NotifcationsRepository.GetById(It.IsAny<Guid>(), CancellationToken.None)).Throws(new HttpCodeException(HttpStatusCode.NotFound));
@@ -116,6 +117,35 @@ namespace APPZ.Test.Services
             slackNotifier
                 .Verify(n => n
                 .SendNotification(It.IsAny<OrganisationDetails>(), It.IsAny<string>(), CancellationToken.None), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task NotificationsForUser_OkTest()
+        {
+            // Arrange
+            var notificationEntity = NotificationData.GetNotificationData();
+            var userEntity = NotificationData.userEntity;
+
+            await Assert.ThrowsExceptionAsync<NullReferenceException>(() => _notificationService.GetNotificationsForUser(It.IsAny<Guid>(), CancellationToken.None));
+        }
+
+
+        [TestMethod]
+        public async Task GetEmptyNotifications_OkTest()
+        {
+            // Arrange
+            IEnumerable<NotificationEntity> notificationEntities = new List<NotificationEntity>();
+
+            _unitOfWorkMoq.Setup(n => n.NotifcationsRepository.GetAll(CancellationToken.None))
+                .ReturnsAsync(notificationEntities);
+
+            // Act
+            var result = await _notificationService.GetNotifications(CancellationToken.None);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(IEnumerable<NotificationEntity>));
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count() == 0);
         }
     }
 }

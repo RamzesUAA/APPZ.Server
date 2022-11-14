@@ -37,6 +37,7 @@ namespace APPZ.Infrastructure.Implementations
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         }
+
         public async Task<RequestReadDTO> GetRequest(Guid id, CancellationToken cancellationToken) =>
             _mapper.Map<RequestReadDTO>(await _unitOfWork.RequestRepository.GetById(id, cancellationToken));
         public async Task ProcessRequest(Guid id, Status status, CancellationToken cancellationToken)

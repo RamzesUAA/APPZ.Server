@@ -38,6 +38,10 @@ namespace APPZ.Core.Repository
                 }
                 return _notificationEntityRepository;
             }
+            set
+            {
+                NotifcationsRepository = value;
+            }
         }
         public virtual IGenericRepository<OrganisationNotifications> OrganisationNotificationsRepository
         {
