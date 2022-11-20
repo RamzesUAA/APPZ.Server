@@ -4,6 +4,7 @@ using APPZ.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APPZ.Core.Migrations
 {
     [DbContext(typeof(MDBContext))]
-    partial class MDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221112140837_OrganisationTypeOfNotifying")]
+    partial class OrganisationTypeOfNotifying
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,31 +51,7 @@ namespace APPZ.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FromOrgId");
-
-                    b.HasIndex("ToUserId");
-
                     b.ToTable("Notifications");
-                });
-
-            modelBuilder.Entity("APPZ.Core.Entities.OrganisationDetails", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("OrganisationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SlackHook")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrganisationId");
-
-                    b.ToTable("OrganisationDetails");
                 });
 
             modelBuilder.Entity("APPZ.Core.Entities.OrganisationNotifications", b =>
@@ -89,8 +67,6 @@ namespace APPZ.Core.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrgId");
 
                     b.ToTable("OrganisationNotifications");
                 });
@@ -121,8 +97,6 @@ namespace APPZ.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Requests");
                 });
@@ -158,63 +132,6 @@ namespace APPZ.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("APPZ.Core.Entities.NotificationEntity", b =>
-                {
-                    b.HasOne("APPZ.Core.Entities.UserEntity", "Organisation")
-                        .WithMany()
-                        .HasForeignKey("FromOrgId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("APPZ.Core.Entities.UserEntity", "User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Organisation");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("APPZ.Core.Entities.OrganisationDetails", b =>
-                {
-                    b.HasOne("APPZ.Core.Entities.UserEntity", "Organisation")
-                        .WithMany()
-                        .HasForeignKey("OrganisationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Organisation");
-                });
-
-            modelBuilder.Entity("APPZ.Core.Entities.OrganisationNotifications", b =>
-                {
-                    b.HasOne("APPZ.Core.Entities.UserEntity", "Organisation")
-                        .WithMany()
-                        .HasForeignKey("OrgId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Organisation");
-                });
-
-            modelBuilder.Entity("APPZ.Core.Entities.RequestEntity", b =>
-                {
-                    b.HasOne("APPZ.Core.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("APPZ.Core.Entities.UserEntity", b =>
-                {
-                    b.Navigation("Notifications");
                 });
 #pragma warning restore 612, 618
         }
