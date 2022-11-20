@@ -6,13 +6,10 @@ namespace APPZ.Core.Profiles
 {
     public class RequestProfile : Profile
     {
-        public class AchievementProfile : Profile
+        public RequestProfile()
         {
-            public AchievementProfile()
-            {
-                CreateMap<RequestCreateDTO, RequestEntity>();
-                CreateMap<RequestEntity, RequestReadDTO>().ForMember("Status", src => src.MapFrom(opt => opt.Status.ToString()));
-            }
+            CreateMap<RequestCreateDTO, RequestEntity>().ReverseMap();
+            CreateMap<RequestEntity, RequestReadDTO>().ForMember("Status", src => src.MapFrom(opt => opt.Status.ToString())).ReverseMap();
         }
     }
 }

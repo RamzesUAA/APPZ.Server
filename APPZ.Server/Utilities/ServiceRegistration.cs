@@ -15,6 +15,7 @@ namespace APPZ.Server.Utilities
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<IRequestService, RequestService>();
         }
         public static void AddMapper(this IServiceCollection services)
         {

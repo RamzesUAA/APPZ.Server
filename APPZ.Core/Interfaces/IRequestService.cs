@@ -15,5 +15,6 @@ namespace APPZ.Core.Interfaces
         Task<RequestReadDTO> GetRequest(Guid id, CancellationToken cancellationToken);
         Task ProcessRequest(Guid id, Status status, CancellationToken cancellationToken);
         Task<IEnumerable<RequestReadDTO>> GetAllRequests(CancellationToken cancellationToken);
+        Task<IEnumerable<RequestReadDTO>> GetRequestsByUserId(Guid userId, CancellationToken cancellationToken);
     }
 }

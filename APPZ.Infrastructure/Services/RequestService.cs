@@ -50,6 +50,8 @@ namespace APPZ.Infrastructure.Implementations
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
+        public async Task<IEnumerable<RequestReadDTO>> GetRequestsByUserId(Guid userId, CancellationToken cancellationToken) =>
+            _mapper.Map<IEnumerable<RequestReadDTO>>(await _unitOfWork.RequestRepository.DbSet.Where(item => item.UserId == userId).ToListAsync(cancellationToken));
         public async Task<IEnumerable<RequestReadDTO>> GetAllRequests(CancellationToken cancellationToken) =>
             _mapper.Map<IEnumerable<RequestReadDTO>>((await _unitOfWork.RequestRepository.GetAll(cancellationToken)));
 
