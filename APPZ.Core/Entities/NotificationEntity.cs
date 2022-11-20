@@ -23,9 +23,8 @@ namespace APPZ.Core.Entities
         public Guid ToUserId { get; set; }
         public UserEntity User { get; set; }
 
-        [Required]
         [ForeignKey("Organisation")]
-        public Guid FromOrgId { get; set; }
+        public Guid? FromOrgId { get; set; }
         public UserEntity Organisation { get; set; }
 
         [Required]

@@ -36,9 +36,9 @@ namespace APPZ.Server.Controllers
             return Ok();
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> ProcessRequest(Guid id, [FromBody]Status status, CancellationToken cancellationToken)
+        public async Task<ActionResult> ProcessRequest(Guid id, [FromBody]ProcessRequestDto processRequestDto, CancellationToken cancellationToken)
         {
-            await _requestService.ProcessRequest(id, status, cancellationToken);
+            await _requestService.ProcessRequest(id, processRequestDto, cancellationToken);
             return Ok();
         }
         [HttpGet("user/{id}")]

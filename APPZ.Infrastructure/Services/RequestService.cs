@@ -33,18 +33,38 @@ namespace APPZ.Infrastructure.Implementations
             mapped.Id = Guid.NewGuid();
             mapped.DateCreated = DateTime.UtcNow;
 
+            await _unitOfWork.NotifcationsRepository.Create(new NotificationEntity
+            {
+                Name = "Request notification",
+                Description = $"Your request was successfully added",
+                ToUserId = request.UserId,
+                DateCreated = DateTime.UtcNow,
+                FromOrgId = null
+            }, cancellationToken);
+
             await _unitOfWork.RequestRepository.Create(mapped, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
         }
 
         public async Task<RequestReadDTO> GetRequest(Guid id, CancellationToken cancellationToken) =>
             _mapper.Map<RequestReadDTO>(await _unitOfWork.RequestRepository.GetById(id, cancellationToken));
-        public async Task ProcessRequest(Guid id, Status status, CancellationToken cancellationToken)
+        public async Task ProcessRequest(Guid id, ProcessRequestDto processRequestDto, CancellationToken cancellationToken)
         {
             var entity = (await _unitOfWork.RequestRepository.GetById(id, cancellationToken));
 
-            entity.Status = status;
+            if (processRequestDto.Status == Status.Rejected || processRequestDto.Status == Status.Completed)
+            {
+                await _unitOfWork.NotifcationsRepository.Create(new NotificationEntity
+                {
+                    Name = "Request notification",
+                    Description = $"Your request has been {(processRequestDto.Status == Status.Rejected ? "rejected": "completed")}",
+                    ToUserId = entity.UserId,
+                    DateCreated = DateTime.UtcNow,
+                    FromOrgId = processRequestDto.FromOrgId
+                }, cancellationToken);
+            }
+
+            entity.Status = processRequestDto.Status;
 
             _unitOfWork.RequestRepository.Update(entity);
 
