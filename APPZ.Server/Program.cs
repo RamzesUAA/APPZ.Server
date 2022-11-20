@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddMapper();
-builder.Services.AddDbContext<MDBContext>(opt => opt.UseSqlServer(builder.Configuration["SQLServer"]));
+builder.Services.AddDbContext<MDBContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
 builder.Services.AddFunctions();
 
 var app = builder.Build();

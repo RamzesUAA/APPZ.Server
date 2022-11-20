@@ -7,26 +7,14 @@ namespace APPZ.Core
     public class MDBContext : DbContext
     {
         protected readonly IConfiguration Configuration;
-        public MDBContext()
+        public MDBContext(DbContextOptions<MDBContext> options) : base(options)
         {
-
-        }
-        public MDBContext(IConfiguration configuration)
-
-        {
-            Configuration = configuration;
         }
         public DbSet<NotificationEntity> Notifications { get; set; }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<RequestEntity> Requests { get; set; }
         public DbSet<OrganisationNotifications> OrganisationNotifications { get; set; }
         public DbSet<OrganisationDetails> OrganisationDetails { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            // connect to postgres with connection string from app settings
-            options.UseSqlServer("");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
