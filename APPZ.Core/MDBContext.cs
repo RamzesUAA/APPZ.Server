@@ -7,6 +7,10 @@ namespace APPZ.Core
     public class MDBContext : DbContext
     {
         protected readonly IConfiguration Configuration;
+        public MDBContext()
+        {
+
+        }
         public MDBContext(IConfiguration configuration)
 
         {
@@ -21,7 +25,7 @@ namespace APPZ.Core
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to postgres with connection string from app settings
-            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseSqlServer("");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

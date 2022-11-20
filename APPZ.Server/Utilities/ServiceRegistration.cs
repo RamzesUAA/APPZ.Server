@@ -13,8 +13,7 @@ namespace APPZ.Server.Utilities
     {
         public static void AddFunctions(this IServiceCollection services)
         {
-            services.AddSingleton<IGenericRepository<BaseEntity>, GenericRepository<BaseEntity>>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<INotificationService, NotificationService>();
         }
         public static void AddMapper(this IServiceCollection services)

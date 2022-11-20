@@ -1,5 +1,6 @@
 using APPZ.Core;
 using APPZ.Server.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddMapper();
-builder.Services.AddDbContext<MDBContext>();
+builder.Services.AddDbContext<MDBContext>(opt => opt.UseSqlServer(builder.Configuration["SQLServer"]));
 builder.Services.AddFunctions();
 
 var app = builder.Build();

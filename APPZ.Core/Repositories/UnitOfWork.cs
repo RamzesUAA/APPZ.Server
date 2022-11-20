@@ -5,7 +5,7 @@ using Npgsql;
 
 namespace APPZ.Core.Repository
 {
-    public abstract class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly MDBContext _context;
         private IGenericRepository<NotificationEntity> _notificationEntityRepository;
@@ -17,7 +17,7 @@ namespace APPZ.Core.Repository
         {
             this._context = context;
         }
-        public virtual IGenericRepository<OrganisationDetails> OrganisationDetailsRepository
+        public IGenericRepository<OrganisationDetails> OrganisationDetailsRepository
         {
             get
             {
@@ -28,7 +28,7 @@ namespace APPZ.Core.Repository
                 return _organisationDetailsRepository;
             }
         }
-        public virtual IGenericRepository<NotificationEntity> NotifcationsRepository
+        public IGenericRepository<NotificationEntity> NotifcationsRepository
         {
             get
             {
@@ -38,12 +38,8 @@ namespace APPZ.Core.Repository
                 }
                 return _notificationEntityRepository;
             }
-            set
-            {
-                NotifcationsRepository = value;
-            }
         }
-        public virtual IGenericRepository<OrganisationNotifications> OrganisationNotificationsRepository
+        public IGenericRepository<OrganisationNotifications> OrganisationNotificationsRepository
         {
             get
             {
