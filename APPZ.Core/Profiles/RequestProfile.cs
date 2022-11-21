@@ -8,7 +8,8 @@ namespace APPZ.Core.Profiles
     {
         public RequestProfile()
         {
-            CreateMap<RequestCreateDTO, RequestEntity>().ReverseMap();
+            CreateMap<RequestCreateDTO, RequestEntity>().ReverseMap(); 
+            CreateMap<UserDto, UserEntity>().ReverseMap(); 
             CreateMap<RequestEntity, RequestReadDTO>().ForMember("Status", src => src.MapFrom(opt => opt.Status.ToString())).ReverseMap();
         }
     }

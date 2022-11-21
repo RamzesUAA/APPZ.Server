@@ -3,6 +3,7 @@ using APPZ.Core.Interfaces;
 using APPZ.Core.Profiles;
 using APPZ.Core.Repository;
 using APPZ.Infrastructure.Implementations;
+using APPZ.Infrastructure.Services;
 using AutoMapper;
 using System.Diagnostics.CodeAnalysis;
 
@@ -16,6 +17,7 @@ namespace APPZ.Server.Utilities
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<IRequestService, RequestService>();
+            services.AddTransient<IUserService, UserService>();
         }
         public static void AddMapper(this IServiceCollection services)
         {
