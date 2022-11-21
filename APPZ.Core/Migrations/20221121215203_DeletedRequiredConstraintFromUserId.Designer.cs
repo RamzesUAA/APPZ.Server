@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APPZ.Core.Migrations
 {
     [DbContext(typeof(MDBContext))]
-    [Migration("20221120174647_add-nullable")]
-    partial class addnullable
+    [Migration("20221121215203_DeletedRequiredConstraintFromUserId")]
+    partial class DeletedRequiredConstraintFromUserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,8 +38,7 @@ namespace APPZ.Core.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<Guid?>("FromOrgId")
-                        .IsRequired()
+                    b.Property<Guid>("FromOrgId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -104,6 +103,11 @@ namespace APPZ.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -116,6 +120,9 @@ namespace APPZ.Core.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

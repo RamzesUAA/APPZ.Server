@@ -4,6 +4,7 @@ using APPZ.Core.Entities;
 using APPZ.Core.Exceptions;
 using APPZ.Core.Interfaces;
 using APPZ.Infrastructure.Strategies;
+using APPZ.Infrastructure.Utilities;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,6 +32,7 @@ namespace APPZ.Infrastructure.Implementations
         {
             var mapped = _mapper.Map<RequestEntity>(request);
             mapped.Id = Guid.NewGuid();
+            mapped.Status = Status.Pending;
             mapped.DateCreated = DateTime.UtcNow;
 
             await _unitOfWork.NotifcationsRepository.Create(new NotificationEntity
@@ -52,19 +54,19 @@ namespace APPZ.Infrastructure.Implementations
         {
             var entity = (await _unitOfWork.RequestRepository.GetById(id, cancellationToken));
 
-            if (processRequestDto.Status == Status.Rejected || processRequestDto.Status == Status.Completed)
+            if (processRequestDto.Status == Status.Rejected.ToString() || processRequestDto.Status == Status.Completed.ToString())
             {
                 await _unitOfWork.NotifcationsRepository.Create(new NotificationEntity
                 {
                     Name = "Request notification",
-                    Description = $"Your request has been {(processRequestDto.Status == Status.Rejected ? "rejected": "completed")}",
+                    Description = $"Your request has been {(processRequestDto.Status == Status.Rejected.ToString() ? "rejected" : "completed")}",
                     ToUserId = entity.UserId,
                     DateCreated = DateTime.UtcNow,
                     FromOrgId = processRequestDto.FromOrgId
                 }, cancellationToken);
             }
 
-            entity.Status = processRequestDto.Status;
+            entity.Status = EnumUtil.ParseEnum<Status>(processRequestDto.Status);
 
             _unitOfWork.RequestRepository.Update(entity);
 

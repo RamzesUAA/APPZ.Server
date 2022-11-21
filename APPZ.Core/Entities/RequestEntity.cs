@@ -23,6 +23,12 @@ namespace APPZ.Core.Entities
         public string? Description { get; set; }
 
         [Required]
+        [MaxLength(250)]
+        public string? City { get; set; }
+
+        [Required]
+        public Priority Priority { get; set; }
+
         [ForeignKey("User")]
         public Guid UserId { get; set; }
         public UserEntity User { get; set; }

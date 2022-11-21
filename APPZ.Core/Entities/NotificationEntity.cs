@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace APPZ.Core.Entities
         public UserEntity User { get; set; }
 
         [ForeignKey("Organisation")]
-        public Guid? FromOrgId { get; set; }
+        public Nullable<Guid> FromOrgId { get; set; }
         public UserEntity Organisation { get; set; }
 
         [Required]

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APPZ.Core.Migrations
 {
     [DbContext(typeof(MDBContext))]
-    [Migration("20221120165100_in")]
-    partial class @in
+    [Migration("20221121213154_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,7 +38,7 @@ namespace APPZ.Core.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<Guid>("FromOrgId")
+                    b.Property<Guid?>("FromOrgId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -103,6 +103,11 @@ namespace APPZ.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -115,6 +120,9 @@ namespace APPZ.Core.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -167,8 +175,7 @@ namespace APPZ.Core.Migrations
                     b.HasOne("APPZ.Core.Entities.UserEntity", "Organisation")
                         .WithMany()
                         .HasForeignKey("FromOrgId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("APPZ.Core.Entities.UserEntity", "User")
                         .WithMany("Notifications")

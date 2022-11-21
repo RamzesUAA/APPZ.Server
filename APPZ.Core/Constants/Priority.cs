@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace APPZ.Core.Constants
 {
-    public enum Status
+    public enum Priority
     {
-        Pending,
-        Completed,
-        Rejected
+        Low,
+        Medium,
+        High
     }
 }

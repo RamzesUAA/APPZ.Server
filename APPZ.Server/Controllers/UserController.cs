@@ -1,7 +1,6 @@
 ﻿using APPZ.Core.DTO;
 using APPZ.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 
 namespace APPZ.Server.Controllers
 {
@@ -17,10 +16,23 @@ namespace APPZ.Server.Controllers
             _userService = requestService;
         }
 
-        [HttpPost(Name = "Login")]
-        public async Task<ActionResult> Get([FromBody] UserDto userDto, CancellationToken cancellationToken)
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult> Login([FromBody] UserDto userDto, CancellationToken cancellationToken)
         {
-            return Ok(await _userService.Login(userDto, cancellationToken));
+            var id = await _userService.Login(userDto, cancellationToken);
+            if (id == Guid.Empty || id == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(id);
+        }
+
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<ActionResult> GetAllUsers(CancellationToken cancellationToken)
+        {
+            return Ok(await _userService.GetAllUsers(cancellationToken));
         }
     }
 }
