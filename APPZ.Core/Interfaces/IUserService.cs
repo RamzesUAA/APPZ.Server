@@ -10,7 +10,7 @@ namespace APPZ.Core.Interfaces
 {
     public interface IUserService
     {
-        public Task<Guid> Login(UserDto organisationDetails, CancellationToken cancellationToken);
+        public Task<UserEntity> Login(UserDto organisationDetails, CancellationToken cancellationToken);
         public Task<IEnumerable<UserEntity>> GetAllUsers(CancellationToken cancellationToken);
     }
 }

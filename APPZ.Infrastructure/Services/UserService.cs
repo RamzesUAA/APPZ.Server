@@ -20,19 +20,14 @@ namespace APPZ.Infrastructure.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Guid> Login(UserDto organisationDetails, CancellationToken cancellationToken)
+        public async Task<UserEntity> Login(UserDto organisationDetails, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.UserRepository.DbSet.FirstOrDefaultAsync(u => u.Email == organisationDetails.Email && u.Password == organisationDetails.Password);
-            if(user == null)
-            {
-                return Guid.Empty;
-            }
-            return user.Id;
+            return await _unitOfWork.UserRepository.DbSet.FirstOrDefaultAsync(u => u.Email == organisationDetails.Email && u.Password == organisationDetails.Password);
         }
 
         public async Task<IEnumerable<UserEntity>> GetAllUsers(CancellationToken cancellationToken)
         {
-            return  await _unitOfWork.UserRepository.GetAll(cancellationToken);
+            return await _unitOfWork.UserRepository.GetAll(cancellationToken);
         }
     }
 }

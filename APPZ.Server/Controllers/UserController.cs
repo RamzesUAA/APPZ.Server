@@ -20,12 +20,12 @@ namespace APPZ.Server.Controllers
         [Route("Login")]
         public async Task<ActionResult> Login([FromBody] UserDto userDto, CancellationToken cancellationToken)
         {
-            var id = await _userService.Login(userDto, cancellationToken);
-            if (id == Guid.Empty || id == null)
+            var user = await _userService.Login(userDto, cancellationToken);
+            if (user == null)
             {
                 return Unauthorized();
             }
-            return Ok(id);
+            return Ok(user);
         }
 
         [HttpGet]
